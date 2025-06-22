@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="WebUI for RBotFirmware CNC">
+    <meta name="author" content="Rob Dobson">
+
+    <title id="title">sandBot</title>
+    <link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;,">
+    <script>const favIconRobotOne =
+"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",
+docHead=document.getElementsByTagName("head")[0],newLink=document.createElement("link");function bodyIsLoaded(){console.log("Body loaded"),window.pageState={fileToStream:null,streamingInProgress:!1,MAX_POST_CHUNK_SIZE:1e3,STREAMING_RETRY_TIME_MS:1e3,MAX_STREAM_GCODE_RETRIES:180,MAX_FILE_SIZE:2e6,MAX_CONFIG_LEN:2e3,axisNames:["X","Y","Z"],endstopNames:["min","max"],robotTypes:[],settings:{},isConnected:!1,updateFilesIndex:0,curFileList:[],fileDialogType:"filesystem",uploadProgress:[],latestfileListInfo:{},fileSystemBasePath:"",lastStatusRxTime:new Date,statusUpdateCheckMs:2e3,statusUpdateTooLateMs:15e3},document.getElementById("input_file_upload").addEventListener("change",fileUploadChange,!1),document.getElementById("gcodeSendBox").addEventListener("keypress",keyPressInGCodeBox,!1),callAjax("/getsettings",settingsCallback),callAjax("/getRobotTypes",robotTypesCallback),fileListUpdate(),connectEvents(),setInterval(statusUpdateTimerHandler,window.pageState.statusUpdateCheckMs),setTimeout(getStatus,100)}function getStatus(){callAjax("/status",statusCallback)}function statusUpdateTimerHandler(){var e;new Date-window.pageState.lastStatusRxTime>window.pageState.statusUpdateTooLateMs&&((e=document.getElementById("button-connect")).disabled=!1,e.classList.remove("disabled"))}function statusCallback(e){window.pageState.isConnected=!0;var t=document.getElementById("button-connect");t.disabled=!0,t.classList.add("disabled"),window.pageState.lastStatusRxTime=new Date;let a={};try{a=JSON.parse(e)}catch(e){console.error("Failed to parse status JSON")}var o=window.pageState.axisNames,s=window.pageState.endstopNames;if(a.hasOwnProperty("XYZ"))for(let e=0;e<o.length;e++)document.getElementById("td_"+o[e]).innerHTML=a.XYZ[e].toFixed(2);if(a.hasOwnProperty("ABC"))for(let e=0;e<o.length;e++)document.getElementById("td_step"+o[e]).innerHTML=a.ABC[e];if(a.hasOwnProperty("end"))for(let n=0;n<o.length;n++)for(let t=0;t<s.length;t++){var i=a.end[n][t];let e=2===i?"":1===i?"HIT":"n/a";document.getElementById("td_"+s[t]+o[n]).innerHTML=e}a.hasOwnProperty("pause")&&(document.getElementById("td_robotState").innerHTML=a.pause?"Paused":"Running"),a.hasOwnProperty("Qd")&&(document.getElementById("td_robotQueueLen").innerHTML=a.Qd)}function robotTypesCallback(e){window.pageState.robotTypes=JSON.parse(e);var t=document.getElementById("td_RobotTypeSelect");t.innerHTML="";for(let e=0;e<window.pageState.robotTypes.length;e++)(opt=document.createElement("option")).innerHTML=window.pageState.robotTypes[e],opt.value=window.pageState.robotTypes[e],t.appendChild(opt),window.pageState.settings.hasOwnProperty("robotConfig")&&window.pageState.settings.robotConfig.hasOwnProperty("robotType")&&window.pageState.settings.robotConfig.robotType===opt.value&&(t.value=opt.value)}function showSettings(){let t=!1;var e=window.pageState.settings;if(e.hasOwnProperty("robotConfig")&&(document.getElementById("td_RobotConfig_input").readOnly=!1,document.getElementById("td_RobotConfig_input").value=JSON.stringify(e.robotConfig),e.robotConfig.hasOwnProperty("robotType"))){var n=e.robotConfig.robotType;for(let e=0;e<window.pageState.robotTypes.length;e++)if(window.pageState.robotTypes[e]===n){document.getElementById("td_RobotTypeSelect").setAttribute("selected",n),t=!0;break}}t||0==window.pageState.robotTypes.length||document.getElementById("td_RobotTypeSelect").setAttribute("selected",window.pageState.robotTypes[0]),e.hasOwnProperty("name")&&(document.getElementById("td_RobotName_input").value=e.name),e.hasOwnProperty("cmdSched")?document.getElementById("td_CmdSchedule_input").value=JSON.stringify(e.cmdSched):document.getElementById("td_CmdSchedule_input").value=JSON.stringify({jobs:[]}),checkJsonStrings(!1)}function settingsCallback(e){window.pageState.settings=JSON.parse(e),showSettings()}function checkJsonStrings(e){if(e)try{window.pageState.settings.robotConfig=JSON.parse(document.getElementById("td_RobotConfig_input").value),0!=document.getElementById("td_CmdSchedule_input").value.length?window.pageState.settings.cmdSched=JSON.parse(document.getElementById("td_CmdSchedule_input").value):window.pageState.settings.cmdSched={jobs:[]}}catch(e){return!1}return!0}function saveConfig(){var e;console.log("Save Settings"),checkJsonStrings(!0)?(window.pageState.settings.name=document.getElementById("td_RobotName_input").value,e=window.pageState.settings,JSON.stringify(e).length>window.pageState.MAX_CONFIG_LEN?alert("Settings JSON is too long for EEPROM (max "+window.pageState.MAX_CONFIG_LEN+") please shorten"):(console.log("Sending config str"+JSON.stringify(e)),postJson("/postsettings/",JSON.stringify(e),postSettingsOkCallback,postSettingsFailCallback))):alert("Settings JSON is not valid - please check")}function postSettingsOkCallback(){console.log("Settings sent ok")}function postSettingsFailCallback(){alert("Failed to send new settings")}function robotTypeClick(){var e=document.getElementById("td_RobotTypeSelect").selectedIndex,e=document.getElementById("td_RobotTypeSelect").options[e];console.log("Change robot type "+e.text),callAjax("/getRobotConfiguration/"+e.text,gotRobotTypeConfig)}function gotRobotTypeConfig(e){window.pageState.settings.robotConfig=JSON.parse(e),showSettings()}function callAjax(e,t,n){let a=new XMLHttpRequest;a.onreadystatechange=function(){4===a.readyState&&(200===a.status?void 0!==t&&t(a.responseText):void 0!==n&&n(a))},a.open("GET",e,!0),a.send()}function ajaxCallback(){console.log("AjaxCallback")}function postJson(e,t,n,a){let o=new XMLHttpRequest;o.onreadystatechange=function(){4===o.readyState&&(200===o.status?void 0!==n&&n(o.responseText):void 0!==a&&a(o))},o.open("POST",e),o.setRequestHeader("Content-Type","application/json"),o.send(t)}function sendGcodeFromInput(){var e=document.getElementById("gcodeSendBox").value;0!==e.length&&callAjax("/exec/"+e,ajaxCallback)}function connectEvents(){var e;window.EventSource&&((e=new EventSource("/events")).addEventListener("open",function(e){console.log("Async events connected")},!1),e.addEventListener("error",function(e){e.target.readyState!=EventSource.OPEN&&console.log("Events Disconnected")},!1),e.addEventListener("status",function(e){console.log("status",e.data),statusCallback(e.data)},!1))}function reconnect(e){connectEvents()}function pauseRobot(e){callAjax("/exec/pause")}function resumeRobot(e){callAjax("/exec/resume")}function stopRobot(){callAjax("/exec/stop"),setStreamGCodeState(!1),streamGCodeShowStatus("Cancelled")}function moveClick(e,t){streamGCodeImmediate("G91\nG0 "+window.pageState.axisNames[e].toUpperCase()+t.toString()+"\nG90",!1)}function goHomeClick(e){callAjax(-1==e?"/exec/G28":"/exec/G28 "+window.pageState.axisNames[e].toUpperCase())}function setHomeClick(e){callAjax("/exec/G92 "+window.pageState.axisNames[e].toUpperCase())}function fileUploadChange(e){0<this.files.length&&("filesystem"===window.pageState.fileDialogType?startFileSystemUpload(this.files):startGCodeStream(this.files[0]),document.getElementById("input_file_upload").value="")}function btnStreamGcode(e){window.pageState.streamingInProgress?alert("Streaming in progress"):(window.pageState.fileDialogType="streamgcode",document.getElementById("input_file_upload").click(),e.preventDefault())}function btnStreamGCodeCancel(e){clearTimeout(window.pageState.streamGCodeRetryTimer),callAjax("/exec/stop"),setStreamGCodeState(!1),streamGCodeShowStatus("Cancelled"),e.preventDefault()}function keyPressInGCodeBox(e){13!==e.keyCode&&13!==e.which||sendGcodeFromInput()}function streamGCodeShowStatus(e){document.getElementById("txtUploadStatus").textContent=e}function setStreamGCodeState(e){window.pageState.streamingInProgress=e;var t=document.getElementById("btnStreamGCode"),t=(e?t.classList.add("disabled"):t.classList.remove("disabled"),document.getElementById("btnStreamGCodeCancel"));e?(t.classList.remove("disabled"),t.disabled=!1):(t.classList.add("disabled"),t.disabled=!0)}function startGCodeStream(e){window.pageState.streamingInProgress?console.log("Streaming already in progress"):e.size>window.pageState.MAX_FILE_SIZE?alert("Stream file is too large"):(window.pageState.fileToStream=e,window.pageState.fileToStreamStartTime=new Date,window.pageState.streamGcodeLines=[],window.pageState.streamGcodeCurLine=0,setStreamGCodeState(!(window.pageState.streamGcodeRetryCount=0)),streamGCodeShowStatus("Streaming "+window.pageState.fileToStream.name),streamGCodeReadFile().then(streamGCodeLines,streamGCodeReadFailed))}function streamGCodeImmediate(e,t=!0){window.pageState.streamingInProgress?t&&alert("Upload in progress"):(window.pageState.streamingInProgress=!0,streamGCodeLines(e))}function streamGCodeLines(e){window.pageState.streamGcodeLines=e.toString().split("\n"),window.pageState.streamGcodeCurLine=0,window.pageState.streamGcodeRetryCount=0,streamGCodeSendNextChunk()}function streamGCodeReadFailed(e){setStreamGCodeState(!1),streamGCodeShowStatus("Failed to stream file"+e)}function gCodeCheckFileValid(t){for(let e=0;e<t.length&&e<1e3;e++)if(127<t.charCodeAt(e))return!1;return!0}function streamGCodeReadFile(){return new Promise(function(t,n){var e=new FileReader;e.onload=function(e){console.log(e.target),gCodeCheckFileValid(e.target.result)?t(e.target.result):n(new Error("File isn't GCode"))},e.onerror=function(e){n(e)},e.readAsText(window.pageState.fileToStream)})}function sendLineOfGCode(e){return new Promise(function(t,n){let a=new XMLHttpRequest;a.onreadystatechange=function(){var e;4===a.readyState&&(200!==a.status||(e=a.response).rslt&&"busy"===e.rslt?n:t)(a)},a.responseType="json",a.open("GET","/exec/"+e,!0),a.send()})}function gCodeCheckLineValid(e){return e=e.trim(),/^[GM]/.test(e)}function gCodeStripComments(e){return e=(e=e.trim()).replace(/(\(.*?\))/,"")}function streamGCodeSendNextChunk(){if(window.pageState.streamingInProgress){for(;;){if(gCodeCheckLineValid(window.pageState.streamGcodeLines[window.pageState.streamGcodeCurLine]))break;if(window.pageState.streamGcodeCurLine+=1,window.pageState.streamGcodeCurLine>=window.pageState.streamGcodeLines.length)return console.log("Streaming complete"),setStreamGCodeState(!1),void streamGCodeShowStatus("")}sendLineOfGCode(gCodeStripComments(window.pageState.streamGcodeLines[window.pageState.streamGcodeCurLine])).then(streamGCodeMoveNext,streamGCodeRetry)}}function streamGCodeMoveNext(){for(console.log("Sent line "+window.pageState.streamGcodeCurLine+"... "+window.pageState.streamGcodeLines[window.pageState.streamGcodeCurLine]),window.pageState.streamGcodeRetryCount=0,window.pageState.streamGcodeCurLine+=1;window.pageState.streamGcodeCurLine<window.pageState.streamGcodeLines.length;){if(0!==window.pageState.streamGcodeLines[window.pageState.streamGcodeCurLine].trim().length)return void streamGCodeSendNextChunk();window.pageState.streamGcodeCurLine+=1}console.log("Streaming complete"),setStreamGCodeState(!1),streamGCodeShowStatus("")}function streamGCodeRetry(e){if(window.pageState.streamGcodeRetryCount+=1,console.log("Failed to send,response "+e.status.toString()+"... "+e.response),218===e.status||503===e.status||200===e.status&&"busy"===e.response.rslt){if(!(window.pageState.streamGcodeRetryCount>window.pageState.MAX_STREAMING_RETRIES))return void(window.pageState.streamGCodeRetryTimer=setTimeout(streamGCodeSendNextChunk,window.pageState.STREAMING_RETRY_TIME_MS));console.log("Failed after "+window.pageState.MAX_STREAMING_RETRIES+" retries")}else console.log("Streaming failed, response "+e.status.toString());setStreamGCodeState(!1),streamGCodeShowStatus("Streaming failed")}function gcodeInputKeyPress(e){return!(e.which&&13==e.which||e.keyCode&&13==e.keyCode)||(document.getElementById("gcodeSendButton").click(),!1)}function fileListUpdate(){callAjax("/filelist/",fileListUpdateOk,fileListUpdateFail)}function fileListUpdateFail(){}function fileSizeSI(e){var t=Math.log(e)/Math.log(1e3)|0;return+(e/Math.pow(1e3,t)).toFixed(2)+" "+("kMGTPEZY"[t-1]||"")+"B"}function fileListUpdateOk(e){var t,n=JSON.parse(e),a=((window.pageState.latestfileListInfo=n).hasOwnProperty("fsBase")&&(window.pageState.fileSystemBasePath=n.fsBase),n.hasOwnProperty("diskSize")&&(e=document.getElementById("file-system-info"),t="<b>Disk Size:</b> "+fileSizeSI(n.diskSize)+", <b>Free Bytes:</b> "+fileSizeSI(n.diskSize-n.diskUsed),e.innerHTML=t),document.getElementById("table_files"));for(let e=a.rows.length-1;0<e;e--)a.deleteRow(e);for(let t=0;t<n.files.length;t++){let e=n.files[t].name;e=e.replace("/","");var o=n.files[t].size,s='<tr data-file="'+e+'">',s=(s=(s=(s=(s=(s=(s+='<td class=file-actions">')+('<a class="btn btn-fileaction" onclick="deleteFile(\''+e+"')\">"))+'<svg class="icon-action"><use xlink:href="#ico-delete"></use></svg>'+"</a>")+('<a class="btn btn-fileaction" onclick="playFile(\''+e+"')\">")+'<svg class="icon-action"><use xlink:href="#ico-play"></use></svg>')+"</a>"+"</td>")+('<td class="file-name">'+e+"</td>"))+('<td class="file-size hidden-xs">'+fileSizeSI(o)+"</td>")+"</tr>";a.insertRow(a.rows.length).innerHTML=s}}function deleteFile(e){callAjax("/deleteFile"+window.pageState.fileSystemBasePath+"/"+e),fileListUpdate()}function playFile(e){callAjax("/playFile"+window.pageState.fileSystemBasePath+"/"+e)}function btnUploadToFileSystem(e){window.pageState.streamingInProgress?alert("Upload in progress"):(window.pageState.fileDialogType="filesystem",document.getElementById("input_file_upload").click(),e.preventDefault())}function initializeProgress(t,e){window.pageState.uploadProgress=[];e=document.getElementById(e);e.value=0;for(let e=t;0<e;e--)window.pageState.uploadProgress.push(0);e.display="block"}function updateProgress(e,t,n){let a=document.getElementById(n);window.pageState.uploadProgress[e]=t;n=window.pageState.uploadProgress.reduce((e,t)=>e+t,0)/window.pageState.uploadProgress.length;a.value=n,99.99<a.value&&setTimeout(function(){a.display="none"},3e3)}function startFileSystemUpload(t){if(!((t=[...t]).length<=0)){firstFile=t[0];let e=0;window.pageState.hasOwnProperty("latestfileListInfo")&&window.pageState.latestfileListInfo.hasOwnProperty("diskSize")&&window.pageState.latestfileListInfo.hasOwnProperty("diskUsed")&&(e=window.pageState.latestfileListInfo.diskSize-window.pageState.latestfileListInfo.diskUsed),firstFile.size+1e3>e?alert("File is too big for storage available"):(initializeProgress(t.length,"progress-bar-file"),t.forEach(uploadOnlyFile))}}function uploadOnlyFile(e,t){uploadFileSpecUrl("/uploadtofileman","progress-bar-file",e,t)}function uploadAndRunFile(e,t){uploadFileSpecUrl("/uploadandrun","progress-bar-file",e,t)}function uploadFileSpecUrl(e,t,n,a){var o=new XMLHttpRequest,s=new FormData;o.open("POST",e,!0),o.setRequestHeader("X-Requested-With","XMLHttpRequest"),o.upload.addEventListener("progress",function(e){updateProgress(a,100*e.loaded/e.total||100,t)}),o.addEventListener("readystatechange",function(e){4==o.readyState&&200==o.status?(updateProgress(a,100,t),fileListUpdate()):4==o.readyState&&o.status}),s.append("file",n),o.send(s)}newLink.rel="shortcut icon",newLink.type="image/x-icon",newLink.href="data:image/png;base64,"+favIconRobotOne,docHead.appendChild(newLink)</script>
+
+    
+    <style>*{box-sizing:border-box}body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.4}th{text-align:left;font-weight:700;color:#333}td,th{padding:0;display:table-cell}table{border-spacing:0;border-collapse:collapse}a{text-decoration:none;background-color:transparent;cursor:pointer;color:#333}td>a{color:#337ab7}progress{width:100%;min-height:100%;background-color:transparent;border:solid 1px #f1c77c;border-radius:5px;color:#bd7e1f;margin-bottom:6px}progress::-webkit-progress-bar{width:100%;min-height:100%;background-color:transparent;border-color:#f1c77c;border-radius:5px}progress::-moz-progress-bar{background-color:transparent;border-radius:5px;border-color:#f1c77c}progress::-webkit-progress-value{background-color:transparent;border-radius:5px;border-color:#f1c77c}#container{display:flex;flex-direction:column}.uiLineBlock{display:flex}.uiBlock{margin:5px;align-items:baseline;align-content:flex-start;justify-content:center;display:flex;flex-wrap:wrap}.icon-connect{color:#fff;fill:#fff;width:16px;height:16px;vertical-align:middle}.icon-action{color:grey;fill:grey;width:16px;height:16px;vertical-align:middle}.btn{display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;touch-action:manipulation;cursor:pointer;user-select:none;border:1px solid transparent;border-radius:4px;text-decoration:none}.btn.disabled{cursor:not-allowed;opacity:.65}.form-control{padding:6px 12px;font-size:14px;line-height:1.42857143;color:#555;background-color:#fff;background-image:none;border:1px solid #ccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075);vertical-align:middle}.btn-action{color:#fff;background-color:#dea352;border-color:#bd7e1f}.btn-default{color:#333;text-shadow:0 1px 0 #fff;background-image:-webkit-linear-gradient(top,#fff 0,#e0e0e0 100%);background-image:-o-linear-gradient(top,#fff 0,#e0e0e0 100%);background-image:-webkit-gradient(linear,left top,left bottom,from(#fff),to(#e0e0e0));background-image:linear-gradient(to bottom,#fff 0,#e0e0e0 100%);background-repeat:repeat-x;border-color:#ccc}.btn-fileaction{padding:0 5px}.btn-primary{color:#fff;background-image:linear-gradient(to bottom,#e4af43 0,#dc7410 100%);background-repeat:repeat-x;border-color:#bd7e1f}.btn-heading{color:#fff;background-image:linear-gradient(to bottom,#e4af43 0,#dc7410 100%);background-repeat:repeat-x;border-color:#bd7e1f;float:right;padding:2px 12px;margin:-4px}.btn-clear{content:"";clear:both;display:table}.btn-default.disabled{background-color:#e0e0e0;background-image:none}.uiPanel{display:block;min-height:1px;background-color:#fff;border:1px solid #f1c77c;border-radius:4px}.uiPanelHead{background-image:linear-gradient(to bottom,#f7f0b9 0,#f3ba64 100%);background-repeat:repeat-x;color:#8f3800;background-color:#f7dd6f;border-color:#f1c77c;padding:10px 10px 10px 10px;border-bottom:1px solid transparent;border-top-left-radius:3px;border-top-right-radius:3px}.uiTable{border:0;width:100%;max-width:100%;border-spacing:0;border-collapse:collapse;background-color:transparent;text-align:center;vertical-align:middle!important}.uiTable>thead>tr>th{vertical-align:bottom;border-bottom:2px solid #ddd}.uiTable>tbody>tr>td,.uiTable>tbody>tr>th,.uiTable>tfoot>tr>td,.uiTable>tfoot>tr>th,.uiTable>thead>tr>td,.uiTable>thead>tr>th{padding:8px;line-height:1.42857143;vertical-align:center;border-top:1px solid #ddd}.uiTable>caption+thead>tr:first-child>td,.uiTable>caption+thead>tr:first-child>th,.uiTable>colgroup+thead>tr:first-child>td,.uiTable>colgroup+thead>tr:first-child>th,.uiTable>thead:first-child>tr:first-child>td,.uiTable>thead:first-child>tr:first-child>th{border-top:0}.uiTableBordered>tbody>tr>td,.uiTableBordered>tbody>tr>th,.uiTableBordered>tfoot>tr>td,.uiTableBordered>tfoot>tr>th,.uiTableBordered>thead>tr>td,.uiTableBordered>thead>tr>th{border:1px solid #ddd}.table-bordered>thead>tr>td,.uiTableBordered>thead>tr>th{border-bottom-width:2px}.uiTableBordered{border:1px solid #ddd;vertical-align:center}.uiTableFiles{margin-bottom:15px;min-width:700px}.uiTableLeftAligned{text-align:left}.uiTableGrid>tbody>tr>td,.uiTableGrid>tbody>tr>th{border:1px solid #ddd;min-width:60px;padding:5px}.uiTableSettings{min-width:700px}.uiTableStatus{min-width:335px;min-height:394px}.uiTableStatus td{font-size:1.1rem}.th-statusGrid{width:100px;font-weight:400}.uiTableButtons{margin-top:10px}.uiTableButtons>tbody>tr{padding-botton:10px}.uiTableButtons>tbody>tr>td,.uiTableButtons>tbody>tr>th{border:none;padding-left:6px;padding-right:6px}.btn-group{padding-bottom:9px;position:relative;display:inline-block;vertical-align:middle;width:auto}.btn-group-justified{display:table;width:350px;table-layout:fixed;border-collapse:separate;margin:0 2px}.btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle){border-top-right-radius:0;border-bottom-right-radius:0}.btn-group>.btn:first-child{margin-left:0}.btn-group-justified>.btn,.btn-group-justified>.btn-group{display:table-cell;float:none;width:1%}.extra-space-above{margin-top:7px}.textAreaInput{border:none;width:100%;height:100%;min-height:8rem;min-width:20rem}.textAreaOneLine{border:none;width:100%;height:100%}.hidden{visibility:hidden}</style>
+
+</head>
+
+<body onload="bodyIsLoaded(event)">
+    
+    <div id="container">
+        <div class="uiLineBlock">
+            <div class="uiBlock">
+                <button type="button" id="button-connect" class="btn btn-action" onclick="reconnect(event)">
+                    <svg class="icon-connect">
+                        <use xlink:href="#icon-log-in"></use>
+                    </svg>
+                    <span>Connect</span>
+                </button>
+            </div>
+            <div class="uiBlock">
+                <div class="uiForm">
+                    <input type="text" name="gcode" class="form-control" onkeypress="gcodeInputKeyPress" placeholder="G-Code ..." id="gcodeSendBox">
+                    <button type="submit" id="gcodeSendButton" class="btn btn-default" title="Send G-Code" onclick="sendGcodeFromInput(event)">
+                        <svg class="icon-action">
+                            <use xlink:href="#icon-send"></use>
+                        </svg>
+                        <span>Send</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="uiBlock">
+                <div class="uiForm">
+                    <button id="btnStreamGCode" class="btn btn-default" title="Stream a G-Code file" onclick="btnStreamGcode(event)">
+                        <svg class="icon-action">
+                            <use xlink:href="#icon-upload"></use>
+                        </svg>
+                        <span>Stream</span>
+                    </button>
+                    <span id="txtUploadStatus" class="txt-status"></span>
+                    <button id="btnStreamGCodeCancel" class="btn btn-default disabled" title="Cancel upload" onclick="btnStreamGCodeCancel(event)" disabled="disabled">
+                        <svg class="icon-action">
+                            <use xlink:href="#ico-cncl"></use>
+                        </svg>
+                        <span>Cancel</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="uiBlock">
+                <div class="uiForm">
+                    <button type="button" class="btn btn-action" onclick="pauseRobot(event)">
+                        <svg class="icon-connect">
+                            <use xlink:href="#ico-pause"></use>
+                        </svg>
+                        <span>Pause</span>
+                    </button>
+                    <button type="button" class="btn btn-action" onclick="resumeRobot(event)">
+                        <svg class="icon-connect">
+                            <use xlink:href="#ico-play"></use>
+                        </svg>
+                        <span>Resume</span>
+                    </button>
+                    <button type="button" class="btn btn-action" onclick="stopRobot(event)">
+                        <svg class="icon-connect">
+                            <use xlink:href="#ico-stop"></use>
+                        </svg>
+                        <span>Stop</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="uiLineBlock">
+            <div class="uiBlock">
+                <div class="uiPanel uiPanelMovement">
+                    <div class="uiPanelHead">
+                        <span>Movement</span>
+                    </div>
+                    <div class="uiTable uiTblBtns tableMovement">
+                        <tr>
+                            <td class="home-buttons visible-lg">
+                                <div class="btn-group extra-space-above" role="group">
+                                    <button class="btn btn-primary" title="Home All (G28)" onclick="goHomeClick(-1)">
+                                        <span>Home All</span>
+                                    </button>
+                                    <button class="btn btn-primary" title="Home X axis (G28 X)" onclick="goHomeClick(0)">
+                                        <span>Go Home X</span>
+                                    </button>
+                                    <button class="btn btn-primary" title="Home X axis (G92 X)" onclick="setHomeClick(0)">
+                                        <span>Set Home X</span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-justified" role="group">
+                                    <a class="btn btn-default" onclick="moveClick(0,-100)">
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-lc"></use>
+                                        </svg>
+                                        <span>X-100</span>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(0,-10)">
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-lc"></use>
+                                        </svg>
+                                        <span>X-10</span>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(0,-1)">
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-lc"></use>
+                                        </svg>
+                                        <span>X-1</span>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(0,-.1)">
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-lc"></use>
+                                        </svg>
+                                        <span>X-0.1</span>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-justified" role="group">
+                                    <a class="btn btn-default" onclick="moveClick(0,.1)">
+                                        <span>X+0.1</span>
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-rc"></use>
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(0,1)">
+                                        <span>X+1</span>
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-rc"></use>
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(0,10)">
+                                        <span>X+10</span>
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-rc"></use>
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(0,100)">
+                                        <span>X+100</span>
+
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-rc"></use>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="home-buttons visible-lg">
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-primary" title="Home Y axis (G28 Y)" onclick="goHomeClick(1)">
+                                        <span>Go Home Y</span>
+                                    </button>
+                                    <button class="btn btn-primary" title="Home Y axis (G92 Y)" onclick="setHomeClick(1)">
+                                        <span>Set Home Y</span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-justified" role="group">
+                                    <a class="btn btn-default" onclick="moveClick(1,-100)">
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-lc"></use>
+                                        </svg>
+                                        <span>Y-100</span>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(1,-10)">
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-lc"></use>
+                                        </svg>
+                                        <span>Y-10</span>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(1,-1)">
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-lc"></use>
+                                        </svg>
+                                        <span>Y-1</span>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(1,-.1)">
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-lc"></use>
+                                        </svg>
+                                        <span>Y-0.1</span>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-justified" role="group">
+                                    <a class="btn btn-default" onclick="moveClick(1,.1)">
+                                        <span>Y+0.1</span>
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-rc"></use>
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(1,1)">
+                                        <span>Y+1</span>
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-rc"></use>
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(1,10)">
+                                        <span>Y+10</span>
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-rc"></use>
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(1,100)">
+                                        <span>Y+100</span>
+
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-rc"></use>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="home-buttons visible-lg">
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-primary" title="Home Z axis (G28 Z)" onclick="goHomeClick(2)">
+                                        <span>Go Home Z</span>
+                                    </button>
+                                    <button class="btn btn-primary" title="Home Z axis (G92 Z)" onclick="setHomeClick(2)">
+                                        <span>Set Home Z</span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-justified" role="group">
+                                    <a class="btn btn-default" onclick="moveClick(2,-100)">
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-lc"></use>
+                                        </svg>
+                                        <span>Z-100</span>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(2,-10)">
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-lc"></use>
+                                        </svg>
+                                        <span>Z-10</span>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(2,-1)">
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-lc"></use>
+                                        </svg>
+                                        <span>Z-1</span>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(2,-.1)">
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-lc"></use>
+                                        </svg>
+                                        <span>Z-0.1</span>
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-justified" role="group">
+                                    <a class="btn btn-default" onclick="moveClick(2,.1)">
+                                        <span>Z+0.1</span>
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-rc"></use>
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(2,1)">
+                                        <span>Z+1</span>
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-rc"></use>
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(2,10)">
+                                        <span>Z+10</span>
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-rc"></use>
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-default" onclick="moveClick(2,100)">
+                                        <span>Z+100</span>
+
+                                        <svg class="icon-action">
+                                            <use xlink:href="#ico-rc"></use>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </div>
+                </div>
+            </div>
+            <div class="uiBlock">
+                <div class="uiPanel">
+                    <div class="uiPanelHead">
+                        <span>Status</span>
+                    </div>
+                    <table class="uiTable uiTableGrid uiTableStatus">
+                        <tbody>
+                        <tr>
+                            <th class="th-status"></th>
+                            <th id="th_X">X</th>
+                            <th id="th_Y">Y</th>
+                            <th id="th_Z" style="border-right:1px">Z</th>
+                        </tr>
+                        <tr>
+                            <th class="th-status">Position</th>
+                            <td id="td_X">n/a</td>
+                            <td id="td_Y">n/a</td>
+                            <td id="td_Z" style="border-right:1px">n/a</td>
+                        </tr>
+                        <tr>
+                            <th class="th-status">Steps</th>
+                            <td id="td_stepX">n/a</td>
+                            <td id="td_stepY">n/a</td>
+                            <td id="td_stepZ" style="border-right:1px">n/a</td>
+                        </tr>
+                        <tr>
+                            <th class="th-status">Min-stop</th>
+                            <td id="td_minX">n/a</td>
+                            <td id="td_minY">n/a</td>
+                            <td id="td_minZ" style="border-right:1px">n/a</td>
+                        </tr>
+                        <tr>
+                            <th class="th-status">Max-stop</th>
+                            <td id="td_maxX">n/a</td>
+                            <td id="td_maxY">n/a</td>
+                            <td id="td_maxZ" style="border-right:1px">n/a</td>
+                        </tr>
+                        <tr>
+                            <th class="th-status">State</th>
+                            <td id="td_robotState" colspan="3" style="border-right:1px"></td>
+                        </tr>
+                        <tr>
+                            <th class="th-status">QueueLen</th>
+                            <td id="td_robotQueueLen" colspan="3" style="border-right:1px"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="uiLineBlock">
+            <div class="uiBlock">
+                <div class="uiPanel file-upload-form">
+                    <div class="uiPanelHead">
+                        <span>Files</span>
+                        <button id="btnUploadFileList" class="btn btn-heading" title="Upload" onclick="btnUploadToFileSystem(event)">
+                            <span>Upload</span>
+                        </button>
+                        <div class="btn-clear"></div>
+                    </div>
+                    <div id="file-system-info" class="uiPanelSub"><span></span></div>
+                    <progress class="progress-file" id="progress-bar-file" max="100" value="20" style="display:none"></progress>
+                    <table class="uiTable uiTableBordered uiTableFiles uiTableStripe" id="table_files">
+                        <thead>
+                            <tr>
+                                <th><a href="#" data-attribute="action">Actions</a>
+                                </th>
+                                <th><a href="#" data-attribute="filename">File Name</a>
+                                </th>
+                                <th><a href="#" data-attribute="size">Size</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="uiLineBlock">
+            <div class="uiBlock">
+                <div class="uiPanel">
+                    <div class="uiPanelHead">
+                        <span>Settings</span>
+                        <button id="btnSaveConfig" class="btn btn-heading" title="Save" onclick="saveConfig()">
+                            <span>Save</span>
+                        </button>
+                        <div class="btn-clear"></div>
+                    </div>
+                    <table class="uiTable uiTableGrid uiTableLeftAligned uiTableSettings">
+                        <tbody>
+                        <tr>
+                            <th class="th-status">RobotName</th>
+                            <td id="td_RobotName" style="border-right:1px">
+                                <textarea class="textAreaOneLine" id="td_RobotName_input"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="th-status">RobotConfig</th>
+                            <td id="td_RobotConfig" style="border-right:1px">
+                                <textarea class="textAreaInput" id="td_RobotConfig_input"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="th-status">Schedule</th>
+                            <td id="td_CmdSchedule" style="border-right:1px">
+                                <textarea class="textAreaInput" id="td_CmdSchedule_input"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="th-status">Change RobotType</th>
+                            <td id="td_RobotType" style="border-right:1px">
+                                <select id="td_RobotTypeSelect">
+                                </select>
+                                <button id="td_RobotTypeClick" onclick="robotTypeClick()">Set</button>
+                                <div>Click Save to confirm changes</div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
+        <symbol id="icon-log-in" viewBox="0 0 1200 1200">
+            <g>
+                <path d="M550 1100h400q165 0 257.5 -92.5t92.5 -257.5v-400q0 -165 -92.5 -257.5t-257.5 -92.5h-400q-21 0 -35.5 14.5t-14.5 35.5v100q0 21 14.5 35.5t35.5 14.5h450q41 0 70.5 29.5t29.5 70.5v500q0 41 -29.5 70.5t-70.5 29.5h-450q-21 0 -35.5 14.5t-14.5 35.5v100 q0 21 14.5 35.5t35.5 14.5zM338 867l324 -284q16 -14 16 -33t-16 -33l-324 -284q-16 -14 -27 -9t-11 26v150h-250q-21 0 -35.5 14.5t-14.5 35.5v200q0 21 14.5 35.5t35.5 14.5h250v150q0 21 11 26t27 -9z"></path>
+            </g>
+        </symbol>
+        <symbol id="icon-send" viewBox="0 0 1200 1200">
+            <g>
+                <path d="M1200 103l-483 276l-314 -399v423h-399l1196 796v-1096zM483 424v-230l683 953z" transform="scale(1,-1) translate(0,-1200)"></path>
+            </g>
+        </symbol>
+        <symbol id="ico-lc" viewBox="0 0 1200 1200">
+            <g>
+                <path d="M885 900l-352 -353l352 -353l-197 -198l-552 552l552 550z"></path>
+            </g>
+        </symbol>
+        <symbol id="ico-rc" viewBox="0 0 1200 1200">
+            <g>
+                <path d="M1064 547l-551 -551l-198 198l353 353l-353 353l198 198z"></path>
+            </g>
+        </symbol>
+        <symbol id="icon-upload" viewBox="0 0 1200 1200">
+            <g>
+                <path d="M502 1089q110 0 201 -59.5t135 -156.5q43 15 89 15q121 0 206 -86.5t86 -206.5q0 -99 -60 -181t-150 -110l-378
+                 360q-13 16 -31.5 16t-31.5 -16l-381 -365h-9q-79 0 -135.5 57.5t-56.5 136.5q0 69 43 122.5t108 67.5q-2 19 -2 38q0 100
+                 49 184.5t133.5 134t184.5 49.5z M632 467l223 -228q13 -16 8 -27.5t-26 -11.5h-137v-275q0 -10 -7.5 -17.5t-17.5
+                 -7.5h-150q-10 0 -17.5 7.5t-7.5 17.5v275h-137q-21 0 -26 11.5t8 27.5q199 204 223 228q19 19 31.5 19t32.5 -19z" transform="scale(1,-1) translate(0,-1100)"></path>
+            </g>
+        </symbol>
+        <symbol id="ico-cncl" viewBox="0 0 510 510">
+            <g>
+                <path d="M255,0C114.75,0,0,114.75,0,255s114.75,255,255,255s255-114.75,255-255S395.25,0,255,0z M382.5,346.8l-35.7,35.7
+			L255,290.7l-91.8,91.8l-35.7-35.7l91.8-91.8l-91.8-91.8l35.7-35.7l91.8,91.8l91.8-91.8l35.7,35.7L290.7,255L382.5,346.8z"></path>
+            </g>
+        </symbol>
+        <symbol id="ico-stop" viewBox="0 0 191 191">
+            <g>
+                <path d="M158.912,0H31.782C14.239,0,0,14.239,0,31.782v127.13c0,17.544,14.239,31.782,31.782,31.782
+				h127.13c17.544,0,31.782-14.239,31.782-31.782V31.782C190.695,14.239,176.456,0,158.912,0z"></path>
+            </g>
+        </symbol>
+        <symbol id="ico-pause" viewBox="0 0 46 46">
+            <g>
+                <path d="M13.987,0c-2.762,0-5,2.239-5,5v35.975c0,2.763,2.238,5,5,5s5-2.238,5-5V5C18.987,2.238,16.75,0,13.987,0z"/>
+                <path d="M31.987,0c-2.762,0-5,2.239-5,5v35.975c0,2.762,2.238,5,5,5s5-2.238,5-5V5C36.987,2.239,34.749,0,31.987,0z"/>
+            </g>
+        </symbol>
+        <symbol id="ico-play" viewBox="0 0 233 233">
+            <g>
+                <path d="M203.791,99.628L49.307,2.294c-4.567-2.719-10.238-2.266-14.521-2.266
+		c-17.132,0-17.056,13.227-17.056,16.578v198.94c0,2.833-0.075,16.579,17.056,16.579c4.283,0,9.955,0.451,14.521-2.267
+		l154.483-97.333c12.68-7.545,10.489-16.449,10.489-16.449S216.471,107.172,203.791,99.628z"/>
+            </g>
+        </symbol>
+        <symbol id="ico-delete" viewBox="0 0 26 26">
+            <g>
+                <path d="M 11 -0.03125 C 10.164063 -0.03125 9.34375 0.132813 8.75 0.71875 C 8.15625 1.304688 7.96875 2.136719 7.96875 3 L 4 3 C 3.449219 3 3 3.449219 3 4 L 2 4 L 2 6 L 24 6 L 24 4 L 23 4 C 23 3.449219 22.550781 3 22 3 L 18.03125 3 C 18.03125 2.136719 17.84375 1.304688 17.25 0.71875 C 16.65625 0.132813 15.835938 -0.03125 15 -0.03125 Z M 11 2.03125 L 15 2.03125 C 15.546875 2.03125 15.71875 2.160156 15.78125 2.21875 C 15.84375 2.277344 15.96875 2.441406 15.96875 3 L 10.03125 3 C 10.03125 2.441406 10.15625 2.277344 10.21875 2.21875 C 10.28125 2.160156 10.453125 2.03125 11 2.03125 Z M 4 7 L 4 23 C 4 24.652344 5.347656 26 7 26 L 19 26 C 20.652344 26 22 24.652344 22 23 L 22 7 Z M 8 10 L 10 10 L 10 22 L 8 22 Z M 12 10 L 14 10 L 14 22 L 12 22 Z M 16 10 L 18 10 L 18 22 L 16 22 Z "/>
+            </g>
+        </symbol>
+    </svg>
+
+    
+    <input type="file" id="input_file_upload" class="hidden">
+
+</body>
+</html>

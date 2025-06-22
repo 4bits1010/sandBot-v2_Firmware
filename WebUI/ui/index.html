@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="WebUI for RBotFirmware">
+    <meta name="author" content="Rob Dobson">
+    <title id="title">sandBot</title>
+    <script>function bodyIsLoaded(){console.log("Body loaded"),window.stState={runInTestMode:"localhost"===location.hostname||"127.0.0.1"===location.hostname||""===location.hostname},window.stState.runInTestMode?(document.getElementById("splashPageText"),splashPageText.innerHTML="I must run on a server!"):callAjax("/getsettings",settingsCallback)}function settingsCallback(o){let e={};try{e=JSON.parse(o)}catch(e){console.error("Failed to parse JSON settings "+o),console.error(e)}null!==e.uiType&&"sand"===e.uiType||e.robotConfig&&e.robotConfig.webui&&"sand"===e.robotConfig.webui.toLowerCase()?window.location.replace("sand.html"):window.location.replace("cnc.html")}function callAjax(e,o,t){var n=new XMLHttpRequest;n.onreadystatechange=function(){4===n.readyState&&(200===n.status?void 0!==o&&o(n.responseText):void 0!==t&&t(n))},n.open("GET",e,!0),n.send()}</script>
+</head>
+    <style>body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.4}#container{display:flex;flex-wrap:wrap}</style>
+
+
+<body onload="bodyIsLoaded(event)">
+    
+    <div id="container">
+        <p id="splashPageText"></p>
+    </div>
+</body>
+</html>
