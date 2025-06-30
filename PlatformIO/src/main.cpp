@@ -40,7 +40,7 @@
 const char* systemType = "RBotFirmware";
 
 // System version
-const char* systemVersion = "2.028.002";
+const char* systemVersion = "2.030.009";
 
 // Build date
 const char* buildDate = __DATE__;
@@ -210,8 +210,8 @@ void setup()
     Serial.begin(115200);
     Log.begin(LOG_LEVEL_TRACE, &netLog);
 
-    // Message
-    Log.notice("%s %s (built %s %s)\n", systemType, systemVersion, buildDate, buildTime);
+    // Message with uptime for reset detection
+    Log.notice("%s %s (built %s %s) - BOOT/RESET at uptime %ums\n", systemType, systemVersion, buildDate, buildTime, (unsigned int)millis());
 
     // Robot config
     robotConfig.setup();
@@ -248,6 +248,17 @@ void setup()
     if (sdConfigLoaded)
     {
         Log.notice("main: SD card network config loaded, credentials updated\n");
+    }
+    
+    // Decide whether to start portal mode after all credential sources have been checked
+    if (wifiManager.shouldStartPortal())
+    {
+        Log.notice("main: No WiFi credentials found after checking all sources, starting portal mode\n");
+        wifiManager.startPortalMode();
+    }
+    else
+    {
+        Log.notice("main: WiFi credentials found, will attempt connection in service loop\n");
     }
 
     // NTP Client

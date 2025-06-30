@@ -40,6 +40,16 @@ void WiFiManager::setup(ConfigBase& hwConfig, ConfigBase *pSysConfig,
     _password = pSysConfig->getString("WiFiPW", "");
     _hostname = pSysConfig->getString("WiFiHostname", _defaultHostname.c_str());
     
+    // Reset connection failure state on setup to ensure clean state after system reset
+    _connectionFailures = 0;
+    _connectionAttemptStartTime = 0;
+    _lastWifiBeginAttemptMs = 0;
+    
+    Log.notice("%sWiFi setup - SSID: %s, Hostname: %s, Credentials present: %s\n", MODULE_PREFIX,
+               _ssid.length() > 0 ? _ssid.c_str() : "(none)",
+               _hostname.c_str(),
+               (_ssid.length() > 0) ? "YES" : "NO");
+    
     // Generate AP SSID for portal mode
     String macAddr = WiFi.macAddress();
     macAddr.replace(":", "");
@@ -52,11 +62,7 @@ void WiFiManager::setup(ConfigBase& hwConfig, ConfigBase *pSysConfig,
         // Set the mode to STA initially
         WiFi.mode(WIFI_STA);
         
-        // Check if we should start in portal mode
-        if (shouldStartPortal())
-        {
-            startPortalMode();
-        }
+        // Portal mode decision deferred to main.cpp after all credential sources are checked
     }
 }
 
@@ -98,7 +104,7 @@ void WiFiManager::service()
         if (_connectionAttemptStartTime > 0 && 
             Utils::isTimeout(millis(), _connectionAttemptStartTime, CONNECTION_TIMEOUT_MS))
         {
-            Log.notice("%sConnection timeout, attempt failed\n", MODULE_PREFIX);
+            Log.notice("%sConnection timeout after %dms, attempt failed\n", MODULE_PREFIX, CONNECTION_TIMEOUT_MS);
             _connectionFailures++;
             _connectionAttemptStartTime = 0; // Reset attempt time
             
@@ -209,8 +215,8 @@ void WiFiManager::wiFiEventHandler(WiFiEvent_t event)
     switch (event)
     {
     case SYSTEM_EVENT_STA_GOT_IP:
-        Log.notice("%sGotIP %s\n", MODULE_PREFIX, WiFi.localIP().toString().c_str());
-        // Reset connection failure count and attempt timer on successful connection
+        Log.notice("%sGotIP %s (uptime: %ums)\n", MODULE_PREFIX, WiFi.localIP().toString().c_str(), (unsigned int)millis());
+            // Reset connection failure count and attempt timer on successful connection
         if (_pInstance)
         {
             _pInstance->_connectionFailures = 0;
@@ -239,7 +245,7 @@ void WiFiManager::wiFiEventHandler(WiFiEvent_t event)
     case SYSTEM_EVENT_STA_DISCONNECTED:
         {
             wl_status_t status = WiFi.status();
-            Log.notice("%sDisconnected (status: %d)\n", MODULE_PREFIX, status);
+            Log.notice("%sDisconnected (status: %d) (uptime: %ums)\n", MODULE_PREFIX, status, (unsigned int)millis());
             
             // Check for authentication/connection failures that should trigger portal
             if (_pInstance && !_pInstance->_portalMode)
@@ -262,21 +268,23 @@ void WiFiManager::wiFiEventHandler(WiFiEvent_t event)
                         break;
                     case WL_DISCONNECTED:
                         Log.notice("%sDisconnected status - checking if during connection attempt\n", MODULE_PREFIX);
-                        // Only count as failure if we were actively trying to connect (within connection window)
-                        if (_pInstance->_connectionAttemptStartTime > 0)
+                        // Only count as failure if disconnected within 5s of connection attempt
+                        if (_pInstance->_connectionAttemptStartTime > 0 && 
+                            Utils::isTimeout(millis(), _pInstance->_connectionAttemptStartTime, 5000))
                         {
-                            Log.notice("%sDisconnected during connection attempt - likely auth failure\n", MODULE_PREFIX);
+                            Log.notice("%sDisconnected within 5s of connection attempt - likely auth failure\n", MODULE_PREFIX);
                             shouldCountFailure = true;
                         }
                         else
                         {
-                            Log.notice("%sDisconnected but no active connection attempt - normal disconnection\n", MODULE_PREFIX);
+                            Log.notice("%sDisconnected but no recent connection attempt - normal disconnection\n", MODULE_PREFIX);
                         }
                         break;
                     default:
                         Log.notice("%sDisconnected with status %d\n", MODULE_PREFIX, status);
-                        // Only count unknown statuses as failures if during connection attempt
-                        if (_pInstance->_connectionAttemptStartTime > 0)
+                        // Only count unknown statuses as failures if during recent connection attempt
+                        if (_pInstance->_connectionAttemptStartTime > 0 &&
+                            Utils::isTimeout(millis(), _pInstance->_connectionAttemptStartTime, 5000))
                         {
                             shouldCountFailure = true;
                         }
@@ -287,8 +295,8 @@ void WiFiManager::wiFiEventHandler(WiFiEvent_t event)
                 {
                     _pInstance->_connectionFailures++;
                     _pInstance->_connectionAttemptStartTime = 0; // Reset attempt timer
-                    Log.notice("%sConnection failure count: %d\n", MODULE_PREFIX, _pInstance->_connectionFailures);
                     
+                    // Check if max failures reached
                     if (_pInstance->_connectionFailures >= MAX_CONNECTION_FAILURES)
                     {
                         Log.notice("%sMax connection failures (%d) reached, starting portal mode\n", 

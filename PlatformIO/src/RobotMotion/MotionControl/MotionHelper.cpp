@@ -120,10 +120,10 @@ void MotionHelper::configure(const char *robotConfigJSON)
     // Start motion actuator
     _rampGenerator.configure(!_trinamicsController.isRampGenerator());
 
-    // Clear motion info
-    _lastCommandedAxisPos.clear();
+    // Reset controller step counters and clear axis position
     _rampGenerator.resetTotalStepPosition();
     _trinamicsController.resetTotalStepPosition();
+    _lastCommandedAxisPos.clear();
 }
 
 // Check if a command can be accepted into the motion pipeline
@@ -179,11 +179,13 @@ void MotionHelper::setCurPosActualPosition()
         _trinamicsController.getTotalStepPosition(actuatorPos);
     else
         _rampGenerator.getTotalStepPosition(actuatorPos);
+    
     AxisFloats curPosMM;
     if (_actuatorToPtFn)
         _actuatorToPtFn(actuatorPos, curPosMM, _lastCommandedAxisPos, _axesParams);
     _lastCommandedAxisPos._axisPositionMM = curPosMM;
     _lastCommandedAxisPos._stepsFromHome = actuatorPos;
+    
 #ifdef DEBUG_MOTION_HELPER
     Log.trace("%sstop absAxes X%F Y%F Z%F steps %d,%d,%d\n", MODULE_PREFIX,
                 _lastCommandedAxisPos._axisPositionMM.getVal(0),
@@ -206,18 +208,10 @@ void MotionHelper::setMotionParams(RobotCommandArgs &args)
 // Get current status of robot
 void MotionHelper::getCurStatus(RobotCommandArgs &args)
 {
-    // Get current position
-    AxisInt32s curActuatorPos;
-    if (_trinamicsController.isRampGenerator())
-        _trinamicsController.getTotalStepPosition(curActuatorPos);
-    else
-        _rampGenerator.getTotalStepPosition(curActuatorPos);
-    args.setPointSteps(curActuatorPos);
-    // Use reverse kinematics to get location
-    AxisFloats curMMPos;
-    if (_actuatorToPtFn)
-        _actuatorToPtFn(curActuatorPos, curMMPos, _lastCommandedAxisPos, _axesParams);
-    args.setPointMM(curMMPos);
+    
+    // Return current position from _lastCommandedAxisPos
+    args.setPointSteps(_lastCommandedAxisPos._stepsFromHome);
+    args.setPointMM(_lastCommandedAxisPos._axisPositionMM);
     // Get end-stop values
     AxisMinMaxBools endstops;
     _rampGenerator.getEndStopStatus(endstops);

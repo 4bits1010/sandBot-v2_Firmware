@@ -34,7 +34,7 @@ private:
     bool _portalMode;
     unsigned long _portalStartTime;
     int _connectionFailures;
-    static const int MAX_CONNECTION_FAILURES = 3;
+    static const int MAX_CONNECTION_FAILURES = 3; 
     static const unsigned long PORTAL_TIMEOUT_MS = 0; // Disabled - portal stays active until credentials saved
     static const unsigned long CONNECTION_TIMEOUT_MS = 30000; // 30 seconds to connect
     String _apSSID;

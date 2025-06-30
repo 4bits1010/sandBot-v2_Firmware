@@ -14,6 +14,7 @@ public:
         _stepDisableSecs = 60.0;
         _motorEnLastMillis = 0;
         _motorEnLastUnixTime = 0;
+        _motorsAreEnabled = false; // FIXED: Initialize to prevent undefined behavior
     }
     ~MotorEnabler()
     {
@@ -62,7 +63,7 @@ public:
             if (_stepEnablePin != -1)
             {
                 if (_motorsAreEnabled)
-                    Log.notice("MotorEnabler: %smotors disabled by %s\n", timeout ? "timeout" : "command");
+                    Log.notice("MotorEnabler: motors disabled by %s\n", timeout ? "timeout" : "command");
                 digitalWrite(_stepEnablePin, !_stepEnLev);
             }
             _motorsAreEnabled = false;
@@ -79,7 +80,10 @@ public:
         // Check for motor enable timeout
         if (_motorsAreEnabled && Utils::isTimeout(millis(), _motorEnLastMillis,
                                                     (unsigned long)(_stepDisableSecs * 1000)))
+        {
+            Log.notice("MotorEnabler: timeout reached, disabling motors after %Fs idle (uptime: %ums)\n", _stepDisableSecs, (unsigned int)millis());
             enableMotors(false, true);
+        }
     }
 
 private:
