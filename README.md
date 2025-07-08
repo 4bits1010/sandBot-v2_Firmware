@@ -3,6 +3,8 @@
 ## Overview
 This update adds a comprehensive WiFi portal system and SD card-based network configuration to the SandBot firmware, providing multiple methods for WiFi setup and eliminating the need for serial terminal configuration in most scenarios.
 
+While this code can work on other ESP microcontrollers like the adafruit Huzzah32, I have updated this repo to favor the [Adafruit feather v2](https://learn.adafruit.com/adafruit-esp32-feather-v2/overview) board as it is the newest variant with some handy features I preferred. Consider upgrading or starting with this board for a drop-in compile as well as new features coming soon. 
+
 ## 🚀 New Features
 
 ### 1. **WiFi Portal Mode**
