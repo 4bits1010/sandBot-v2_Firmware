@@ -5,7 +5,7 @@ This update adds a comprehensive WiFi portal system and SD card-based network co
 
 While this code can work on other ESP microcontrollers like the adafruit Huzzah32, I have updated this repo to favor the [Adafruit feather v2](https://learn.adafruit.com/adafruit-esp32-feather-v2/overview) board as it is the newest variant with some handy features I preferred. Consider upgrading or starting with this board for a drop-in compile as well as new features coming soon. 
 
-## 🚀 New Features
+## New Features
 
 ### 1. **WiFi Portal Mode**
 A captive portal system that automatically activates when WiFi configuration is needed.
@@ -66,12 +66,12 @@ Automatic WiFi setup from configuration file on SD card.
 Improved WiFi failure handling with multiple trigger conditions.
 
 **Portal Mode Triggers:**
-- ✅ **No Credentials** - Immediate portal activation
-- ✅ **Connection Timeout** - 30 seconds without connection
-- ✅ **Authentication Failure** - Wrong password detection
-- ✅ **Network Not Found** - SSID unavailable
-- ✅ **Connection Failures** - Any disconnection during connection attempt
-- ✅ **Failure Threshold** - 3 consecutive failures → portal mode
+-  **No Credentials** - Immediate portal activation
+-  **Connection Timeout** - 30 seconds without connection
+-  **Authentication Failure** - Wrong password detection
+-  **Network Not Found** - SSID unavailable
+-  **Connection Failures** - Any disconnection during connection attempt
+-  **Failure Threshold** - 3 consecutive failures → portal mode
 
 ### 4. **Motor Timeout Fix**
 Fixed stepper motor disable functionality.  This was not functioning, now after idle the motor enable is disabled so the steppers are turned off and put into a powersave mode to also prevent excess heat buildup.
@@ -80,7 +80,7 @@ Fixed stepper motor disable functionality.  This was not functioning, now after 
 **Fix:** Added missing `_motorEnabler.service()` call in motion control loop  
 **Result:** Motors now properly disable after 10 seconds of inactivity  
 
-## 🔧 Technical Changes
+## Technical Changes
 
 ### WiFiManager Enhancements
 
@@ -111,7 +111,7 @@ Fixed stepper motor disable functionality.  This was not functioning, now after 
 **New Method:**
 - `isSDCardOk()` - Public SD card status checking
 
-## 📱 User Experience
+## User Experience
 
 ### Portal Access Flow
 1. **Connect to WiFi** → `sandBot-XXXXXX`
@@ -132,7 +132,7 @@ Fixed stepper motor disable functionality.  This was not functioning, now after 
 - Portal activates automatically on WiFi failures
 - Technicians can reconfigure without serial access
 
-## 🔍 Debugging & Monitoring
+## Debugging & Monitoring
 
 ### Log Messages
 
@@ -174,20 +174,20 @@ I: MotorEnabler: timeout motors disabled by timeout
 - Verify network availability and password
 - Check signal strength and network security type
 
-## 🛡️ Security
+## Security
 
 **Portal Access:** Password-protected setup network prevents unauthorized access  
 **Timeout Protection:** Portal auto-disables after inactivity (configurable)  
 **Credential Storage:** NVS encryption maintains WiFi password security  
 
-## 🔄 Backward Compatibility
+## Backward Compatibility
 
 **Existing Commands:** All legacy serial commands remain functional  
 **NVS Storage:** Existing WiFi credentials preserved and honored  
 **Configuration:** Previous robot configurations unchanged  
 **API Endpoints:** All existing REST endpoints maintain compatibility  
 
-## 📋 Configuration Reference
+## Configuration Reference
 
 NOTE: change the softAP password (apPassword=) in WiFiManager.cpp
 
@@ -195,10 +195,10 @@ NOTE: change the softAP password (apPassword=) in WiFiManager.cpp
 
 | Field | Required | Type | Description |
 |-------|----------|------|-------------|
-| `wifi` | ✅ | String | `"yes"` for WiFi mode, `"ap"` for portal mode |
-| `WiFiSSID` | ⚠️* | String | Target network name (*required if wifi="yes") |
-| `WiFiPW` | ❌ | String | Network password (empty for open networks) |
-| `WiFiHostname` | ❌ | String | Custom device hostname |
+| `wifi` | yes | String | `"yes"` for WiFi mode, `"ap"` for portal mode |
+| `WiFiSSID` | opt | String | Target network name (*required if wifi="yes") |
+| `WiFiPW` | no | String | Network password (empty for open networks) |
+| `WiFiHostname` | no | String | Custom device hostname |
 
 ### Portal Configuration
 
